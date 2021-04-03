@@ -12,7 +12,7 @@
                                 <a href="#" class="btn btn-block bg-teal p-3">
                                     <font-awesome-icon v-if="!load" :icon="['fab', 'google']" class="mr-2 text-white" /> 
                                     <font-awesome-icon v-else :icon="['fas', 'spinner']" class="mr-2 infi-animation" />
-                                    <p v-if="!load" class="d-inline text-black">Login MySC using Rinfo</p>
+                                    <p v-if="!load" class="d-inline text-white">Login MySC using Rinfo</p>
                                     <p v-else class="d-inline">Loading...</p>
                                 </a>
                             </GoogleLogin>
@@ -74,6 +74,9 @@ export default {
 </script>
 
 <style scoped>
+.bg-teal {
+    background-color: #20c997!important;
+}
 .content {
     margin:8%;
     background-color: #fff;

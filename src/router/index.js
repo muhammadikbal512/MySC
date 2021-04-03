@@ -5,6 +5,7 @@ import Register from '../components/Login/Register'
 import Login from '../components/Login/Login'
 import UserNavbar from '../components/User/Navbar/UserNavbar'
 import SubmitSc from '../components/User/SubmitSC/SubmitSC'
+import HistorySc from '../components/User/HistorySC/HistorySC'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,11 @@ const routes = [
             {
                 path: '/submitsc',
                 component: SubmitSc
-            }
+            },
+            {
+                path: '/historysc',
+                component: HistorySc
+            },
 
             
         ]
