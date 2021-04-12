@@ -10,6 +10,6 @@
   color: #42b983;
 }
 body {
-  background-color:#42b983;
+  /* background-color:#42b983; */
 }
 </style>

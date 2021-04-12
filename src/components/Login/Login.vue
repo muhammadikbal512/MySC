@@ -1,23 +1,26 @@
 <template>
-    <div class="container">
-        <div class="row content">
-            <div class="col-md-6 mb-3">
-                <img src="../../assets/desk.svg" class="img-fluid" alt="image">
-            </div>
-            <div class="col-md-6 text-center" style="margin-top:15%;">
-                <div class="login-box">
-                    <div class="login-logo">
-                        <div class="text">
-                            <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure" :logoutButton="false" class="social-auth-links text-center mb-3">
-                                <a href="#" class="btn btn-block bg-teal p-3">
-                                    <font-awesome-icon v-if="!load" :icon="['fab', 'google']" class="mr-2 text-white" /> 
-                                    <font-awesome-icon v-else :icon="['fas', 'spinner']" class="mr-2 infi-animation" />
-                                    <p v-if="!load" class="d-inline text-white">Login MySC using Rinfo</p>
-                                    <p v-else class="d-inline">Loading...</p>
-                                </a>
-                            </GoogleLogin>
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="row content">
+                <div class="col-md-6 mb-3">
+                    <img src="../../assets/desk.svg" class="img-fluid" alt="image">
+                </div>
+                <div class="col-md-6 text-center" style="margin-top:15%;">
+                    <div class="login-box">
+                        <div class="login-logo">
+                            <div class="text">
+                                <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure" :logoutButton="false" class="social-auth-links text-center mb-3">
+                                    <a href="#" class="btn btn-block bg-teal p-3">
+                                        <font-awesome-icon v-if="!load" :icon="['fab', 'google']" class="mr-2 text-white" /> 
+                                        <font-awesome-icon v-else :icon="['fas', 'spinner']" class="mr-2 infi-animation" />
+                                        <p v-if="!load" class="d-inline text-white">Login MySC using Rinfo</p>
+                                        <p v-else class="d-inline">Loading...</p>
+                                    </a>
+                                </GoogleLogin>
+                            </div>
                         </div>
                     </div>
+                    <small>Need an account? <router-link to="/register">Sign Up</router-link></small>
                 </div>
             </div>
         </div>
@@ -25,8 +28,9 @@
 </template>
 
 <script>
+// import Swal from 'sweetalert2'
 import GoogleLogin from '@/plugin/sso-google/GoogleLogin'
-const CLIENT_ID = "1040958847983-mt1h043vfn6cs6ts1akmfgb2f3ecvm72.apps.googleusercontent.com"
+const CLIENT_ID = "1032966377380-8n63b7jrdaq6p4l8mhkpgqdnfakfvqos.apps.googleusercontent.com"
 export default {
     data() {
         return {
@@ -56,7 +60,7 @@ export default {
 
         },
         onFailure(error) {
-            console.log(error);
+            console.log(error)
         }
     },
     computed: {
@@ -88,6 +92,16 @@ export default {
     font-style: normal;
     font-weight: 600 !important;
 
+}
+
+.container {
+    padding: 2rem;
+}
+
+.content-wrapper {
+    background-color: #42b983;
+    width: 100%;
+    height: 100vh;
 }
 
 .form-control {

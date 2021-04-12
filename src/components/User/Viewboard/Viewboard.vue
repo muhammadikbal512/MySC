@@ -4,12 +4,12 @@
             <div class="card card-primary card-outline mt-5">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="img-fluid profile-user-img" style="border-radius:50%;" src="https://lh3.googleusercontent.com/-gSyIeGNr8_I/YECEy0-D27I/AAAAAAAABdM/psP-xcR9Nek3HrXjGgzWcSM2z3eUq6VrwCK8BGAsYHg/s512/2021-03-03.jpg" alt="User profile picture">
+                  <img class="img-fluid profile-user-img" style="border-radius:50%;" :src="this.photo">
                 </div>
 
-                <h3 class="profile-username text-center">Muhammad Iqbal</h3>
+                <h3 class="profile-username text-center">{{this.name}}</h3>
 
-                <p class="text-muted text-center">Timur 10</p>
+                <p class="text-muted text-center">{{this.role}}</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
@@ -28,11 +28,28 @@
     </div>
 </template>
 
+<script>
+export default {
+    data() {
+        return {
+            name: this.$store.state.user.name,
+            photo: this.$store.state.user.photo,
+            role: this.$store.state.user.role
+        }
+    }
+}
+</script>
+
+
+
 <style scoped>
 .profile-user-img {
     border: 3px solid #adb5bd;
     margin: 0 auto;
     padding: 3px;
     width: 100px;
+}
+.body {
+    background-color:white !important;
 }
 </style>

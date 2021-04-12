@@ -88,69 +88,9 @@
         <router-view />
         <hr class="featurette-divider">
         <footer class="container">
-        <p class="float-right"><a href="#">My Special Contribution</a></p>
-        <p>© Alphabet Incubator </p>
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>© 2017-2018 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
       </footer>
 <!-- ./wrapper -->
     </div>
 </template>
-
-<script>
-import Swal from 'sweetalert2'
-import axios from 'axios'
-export default {
-    data() {
-        return {
-
-        }
-    },
-
-    methods: {
-        logout() {
-            Swal.fire({
-                text: "Are you sure to logout?",
-                imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
-                imageWidth: 150,
-                imageHeight: 60,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!'
-            })
-                .then(result => {
-                    if(result.value) {
-                        Swal.fire(
-                            {
-                        imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
-                        imageWidth: 150,
-                        imageHeight: 60,
-                        text:'Success'
-                            }
-                        )
-                        this.$store.dispatch('logout')
-                    }
-                })
-        }
-    },
-    async created() {
-        await axios.post('http://localhost:8000/api/auth/user')
-            .then(response => {
-                // console.log(response)
-                if(response.data.error){
-                    Swal.fire({
-                        imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
-                        imageWidth: 150,
-                        imageHeight: 60,
-                        text: 'Your token has been expired!.'
-                    })
-                    this.$store.dispatch('logout')
-                    return
-                }
-                this.name = response.data.User.Detail_user.name
-                this.photo = response.data.User.Media[0].path
-                this.$store.dispatch('addDataUser', response.data.User)                
-            })
-            .catch(error => console.log(error))
-    }
-}
-</script>

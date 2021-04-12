@@ -135,7 +135,7 @@ export default {
     async created() {
         await axios.post('http://localhost:8000/api/auth/user')
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 if(response.data.error){
                     Swal.fire({
                         imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",

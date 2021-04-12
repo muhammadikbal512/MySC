@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../../../router'
 const swalWithBootstrap = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-success py-2 px-4',
@@ -13,7 +14,6 @@ export default {
         return {
             link: '',
             created_at:'',
-            user:'' 
             }
         },
     
@@ -30,10 +30,9 @@ export default {
                 if(response.value) {
                     let data = {
                         link: this.link,
-                        created_at: this.created_at
                     }
                     console.log(data)
-                    axios.post('https://dev.alphabetincubator.id/rep-backend/public/api/user/records', data)
+                    axios.post('http://localhost:8000/api/user/records', data)
                         .then(response => {
                             console.log(response)
                             Swal.fire({
@@ -47,8 +46,7 @@ export default {
                                 timer: 1500
                             })
                             this.link = '',
-                            this.created_at='',
-                            this.$router.push('/')
+                            router.push('/')
                         })
                         .catch(error => console.log(error))
                 }else if(response.dismiss === Swal.DismissReason.cancel) {
@@ -99,10 +97,19 @@ export default {
                                                 <p>*Masukkan link CerMi untuk bukti mendapatkan Special Contribution*</p>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
+                                        <!-- <div class="col-sm-12">
                                                 <label>Submitted at</label>
                                                 <input class="form-control" type="date" v-model="created_at">
-                                        </div>
+                                        </div> -->
+                                        <!-- <div class="col-sm-12">
+                                            <div class="form-group">
+                                                    <label>Pilih Dosen</label>
+                                                    <select class="form-control text-center">
+                                                        <option>Mamoi</option>
+                                                        <option>PaUR</option>
+                                                    </select>
+                                            </div>
+                                        </div> -->
                                     </div>
                                 </form>
                             </div>

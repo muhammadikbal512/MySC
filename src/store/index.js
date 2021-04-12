@@ -45,6 +45,7 @@ export default new Vuex.Store({
             state.user.name = userData.Detail_user.name
             state.user.email = userData.Detail_user.email
             state.user.photo = userData.Media[0].path
+            state.user.role = userData.Role[0].name
         },
         // BEBAS(state){
         //     state.like = true
@@ -68,9 +69,9 @@ export default new Vuex.Store({
         // },
         ssoGoogle({commit}, access) {
             commit('AUTH_LOAD')
-            axios.post("https://dev.alphabetincubator.id/rep-backend/public/api/auth/callback/google", access)
+            axios.post("http://localhost:8000/api/auth/callback/google", access)
                 .then(response => {
-                    // console.log(response)
+                    console.log("response callback", response)
                     this.detail = response.data.name
                     // this.role = response.data.role
                     commit('AUTH_SUCCESS', response.data.access_token)
@@ -84,7 +85,7 @@ export default new Vuex.Store({
                         showConfirmButton: false,
                         timer: 3500
                     })
-                    if(response.data.role === 'administrator'|| response.data.role === 'lecturer') {
+                    if(response.data.role === 'dosen' || response.data.role === "admin") {
                         router.push('/admin')
                   }
                   else
@@ -94,15 +95,20 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     console.log(error)
-                    console.log(error.response)
+                    // console.log(error.response)
                     commit('AUTH_ERROR')
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Register!',
+                      })
                 })
         },
         addDataUser({commit}, data) {
             commit('AUTH_USER', data)
         },
         logout({commit}){
-            axios.post('https://dev.alphabetincubator.id/rep-backend/public/api/auth/logout')
+            axios.post('http://localhost:8000/api/auth/logout')
                 .then(response => {
                     console.log(response)
                 })
