@@ -13,10 +13,10 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>SC</b> <a class="float-right">20</a>
+                    <b>SC</b> <a class="float-right">{{ this.mahasiswa.total_sc }}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>AIC</b> <a class="float-right">100</a>
+                    <b>AIC</b> <a class="float-right">{{ this.mahasiswa.total_aic }}</a>
                   </li>
                 </ul>
 
@@ -29,13 +29,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data() {
         return {
             name: this.$store.state.user.name,
             photo: this.$store.state.user.photo,
-            role: this.$store.state.user.role
+            role: this.$store.state.user.role,
+            mahasiswa: '',
+            all: '',
+            pending: '',
+            verified : ''
         }
+    },
+    created() {
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
+      .then(response => {
+        console.log(response)
+        this.mahasiswa = response.data
+      })
     }
 }
 </script>

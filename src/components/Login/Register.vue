@@ -30,7 +30,7 @@ export default {
                 confirmButtonText: 'Yes',
             }).then(result => {
                 if(result.value) {
-                    axios.post('http://localhost:8000/api/users/', register)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/users/create', register)
                     .then(response => {
                         console.log(response)
                         Swal.fire(
@@ -46,7 +46,7 @@ export default {
         },
     },
     created() {
-        axios.get('http://localhost:8000/api/users/create')
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/users/roles')
         .then(response => {
             console.log(response)
             this.roles = response.data.dropdown_list

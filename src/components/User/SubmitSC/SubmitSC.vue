@@ -1,7 +1,8 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import router from '../../../router'
+import { FingerprintSpinner } from 'epic-spinners'
+
 const swalWithBootstrap = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-success py-2 px-4',
@@ -14,11 +15,26 @@ export default {
         return {
             link: '',
             created_at:'',
+            dosen: '',
+            dosen_id: '',
+            loading: false
             }
         },
+    components: {
+        FingerprintSpinner
+    },
+
+    mounted() {
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/users/dosen')
+        .then(response => {
+            console.log(response)
+            this.dosen  =   response.data.dropdown_list
+        })
+    },
     
     methods: {
         submit() {
+            this.loading = true
             swalWithBootstrap.fire({
                 title: 'Are you sure ?',
                 icon: 'warning',
@@ -30,9 +46,10 @@ export default {
                 if(response.value) {
                     let data = {
                         link: this.link,
+                        dosen_id: this.dosen_id
                     }
                     console.log(data)
-                    axios.post('http://localhost:8000/api/user/records', data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records', data)
                         .then(response => {
                             console.log(response)
                             Swal.fire({
@@ -45,8 +62,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             })
-                            this.link = '',
-                            router.push('/')
+                            this.$router.push('/historysc')
                         })
                         .catch(error => console.log(error))
                 }else if(response.dismiss === Swal.DismissReason.cancel) {
@@ -101,17 +117,26 @@ export default {
                                                 <label>Submitted at</label>
                                                 <input class="form-control" type="date" v-model="created_at">
                                         </div> -->
-                                        <!-- <div class="col-sm-12">
+                                       
+                                        <div class="col-sm-12">
                                             <div class="form-group">
                                                     <label>Pilih Dosen</label>
-                                                    <select class="form-control text-center">
-                                                        <option>Mamoi</option>
-                                                        <option>PaUR</option>
+                                                    <select class="custom-select" v-model="dosen_id">
+                                                        <option v-for="index in dosen" :key="index.id" :value="index.id">
+                                                            {{index.name}}
+                                                        </option>
                                                     </select>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="wrapper" style="margin:auto;" v-if="loading">
+                                <fingerprint-spinner
+                                    :animation-duration="1500"
+                                    :size="64"
+                                    color="#ff1d5e"
+                                    />
                             </div>
                             <div class="card-footer">
                                 <button @click="submit" class="btn btn-primary" type="submit">Submit</button>

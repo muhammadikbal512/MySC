@@ -69,7 +69,7 @@ export default new Vuex.Store({
         // },
         ssoGoogle({commit}, access) {
             commit('AUTH_LOAD')
-            axios.post("http://localhost:8000/api/auth/callback/google", access)
+            axios.post("https://dev.alphabetincubator.id/mysc-backend/public/api/auth/callback/google", access)
                 .then(response => {
                     console.log("response callback", response)
                     this.detail = response.data.name
@@ -79,7 +79,7 @@ export default new Vuex.Store({
                     Swal.fire({
                         position: 'top',
                         text:'Welcome back, '+ response.data.name,
-                        imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
+                        imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png",
                         imageWidth: 150,
                         imageHeight: 60,
                         showConfirmButton: false,
@@ -108,7 +108,7 @@ export default new Vuex.Store({
             commit('AUTH_USER', data)
         },
         logout({commit}){
-            axios.post('http://localhost:8000/api/auth/logout')
+            axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/auth/logout')
                 .then(response => {
                     console.log(response)
                 })

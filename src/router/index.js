@@ -6,6 +6,7 @@ import Login from '../components/Login/Login'
 import UserNavbar from '../components/User/Navbar/UserNavbar'
 import HistorySc from '../components/User/HistorySC/HistorySC'
 import SubmitSc from '../components/User/SubmitSC/SubmitSC'
+// import SubmittedSc from '../components/User/SubmittedSC/Submittedsc'
 
 
 import AdminNavbar from '../components/Admin/Navbar/AdminNavbar'

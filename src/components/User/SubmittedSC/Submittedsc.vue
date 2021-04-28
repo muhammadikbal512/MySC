@@ -8,14 +8,12 @@ export default {
     },
     data() {
         return {
-            all_data: '',
             user_id: this.$store.state.user.id,
-            value:'',
             date: new Date()
         }
     },
 
-    methods: {
+   methods: {
         Submit() {
             this.loading = true
             const tanggal = String(this.date)
@@ -65,37 +63,37 @@ export default {
             
             const lala = [baru[3], bulan, baru[2]].join('-')
             console.log(lala)
-            axios.post('https://dev.alphabetincubator.id/rep-backend/public/api/user/difficulty/user/1', {date:lala})
+            axios.post('http://localhost/api/user/records/user/' + this.user_id, {date:lala})
                 .then(response => {
                     console.log('tanggal',response)
-                    const dataRes =  response.data.Data
-                    this.all_data = [].slice.call(dataRes).sort((a,b) => (a.detail_record.id > b.detail_record.id) ? 1 : -1)
-                    // console.log('tanggal ambil data',this.all_data)
-                    this.loading = false
+                    // const dataRes =  response.data.Data
+                    // this.all_data = [].slice.call(dataRes).sort((a,b) => (a.detail_record.id > b.detail_record.id) ? 1 : -1)
+                    // // console.log('tanggal ambil data',this.all_data)
+                    // this.loading = false
                 })
-                // .catch(error => {
-                //     Swal.fire({
-                //                 position: 'center',
-                //                 imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
-                //                 imageWidth: 150,
-                //                 imageHeight: 60,
-                //                 text: 'There is no record',
-                //                 showConfirmButton: false,
-                //                 timer: 1500
-                //             })
-                // })
+                .catch(error => {
+                    Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                text: 'There is no record',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                })
         }
     },
     
     mounted (){
-        axios.post('https://dev.alphabetincubator.id/rep-backend/public/api/user/difficulty/user/1')
+        axios.post('http://localhost/api/user/records/user/' + this.user_id)
             .then(response => {
-                // console.log(response)
-                this.all_data = response.data.Data
+                console.log(response)
+                // this.all_data = response.data.Data
             })
-            // .catch(error => {
+            .catch(error => {
                 
-            // })
+            })
     }
 }
 </script>
@@ -135,18 +133,12 @@ export default {
                                             <th>No</th>
                                             <th>Submit Date</th>
                                             <th>Link</th>
-                                            <th>Approval</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(index, length) in all_data" :key="length">
-                                            <td>{{ length + 1 }}</td>
-                                            <td>{{ index.detail_record.created_at }}</td>
-                                            <td><a :href="index.detail_record.link">Click Here</a></td>
-                                            <td>
-                                                <font-awesome-icon :icon="['fa', 'thumbs-up']" />
-                                                {{ index.likes }}
-                                             </td>
+                                        <tr>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>

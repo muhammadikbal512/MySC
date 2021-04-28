@@ -50,6 +50,14 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <router-link to="/" class="nav-link" style="color: #fff">Home</router-link>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <router-link to="/historysc" class="nav-link" style="color: #fff">MyHistory</router-link>
+                </li>
+                <div v-show="this.role === 'admin'">
+                <li class="nav-item d-none d-sm-inline-block">
+                    <router-link to="/admin" class="nav-link" style="color: #fff">Secret Chamber</router-link>
+                </li>
+                </div>
             </ul>
 
             <!-- Right navbar links -->
@@ -101,7 +109,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
-
+            role : this.$store.state.user.role
         }
     },
 
@@ -109,7 +117,7 @@ export default {
         logout() {
             Swal.fire({
                 text: "Are you sure to logout?",
-                imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
+                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
                 imageWidth: 150,
                 imageHeight: 60,
                 showCancelButton: true,
@@ -121,7 +129,7 @@ export default {
                     if(result.value) {
                         Swal.fire(
                             {
-                        imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
+                        imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
                         imageWidth: 150,
                         imageHeight: 60,
                         text:'Success'
@@ -133,12 +141,17 @@ export default {
         }
     },
     async created() {
-        await axios.post('http://localhost:8000/api/auth/user')
+        await axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/auth/user')
             .then(response => {
-                // console.log(response)
-                if(response.data.error){
+                console.log(response)
+                this.name = response.data.User.Detail_user.name
+                this.photo = response.data.User.Media[0].path
+                this.$store.dispatch('addDataUser', response.data.User)                
+            })
+            .catch(error => {
+                if(error){
                     Swal.fire({
-                        imageUrl: "https://lh3.googleusercontent.com/-L0L0yfE5VpA/XpfifMdyIXI/AAAAAAAABFU/ZrtQpPoKXHsAj0kgc70Gn8IwWsybi0nbACK8BGAsYHg/s0/2020-04-15.png",
+                        imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png",
                         imageWidth: 150,
                         imageHeight: 60,
                         text: 'Your token has been expired!.'
@@ -146,11 +159,7 @@ export default {
                     this.$store.dispatch('logout')
                     return
                 }
-                this.name = response.data.User.Detail_user.name
-                this.photo = response.data.User.Media[0].path
-                this.$store.dispatch('addDataUser', response.data.User)                
             })
-            .catch(error => console.log(error))
     }
 }
 </script>
