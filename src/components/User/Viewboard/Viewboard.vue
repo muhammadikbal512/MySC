@@ -21,6 +21,7 @@
                 </ul>
 
                 <router-link to="/submitsc" class="btn btn-primary btn-block"><b>Submit SC</b></router-link>
+                 <router-link to="/submitaic" class="btn btn-info btn-block"><b>Claim AIC</b></router-link>
               </div>
               <!-- /.card-body -->
             </div>
@@ -47,6 +48,12 @@ export default {
       .then(response => {
         console.log(response)
         this.mahasiswa = response.data
+      })
+    },
+    mounted() {
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/sc')
+      .then(response => {
+        console.log(response)
       })
     }
 }

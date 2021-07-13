@@ -13,15 +13,23 @@ const swalWithBootstrap = Swal.mixin({
 export default {
     data() {
         return {
-            link: '',
+            aic: '',
             created_at:'',
             dosen: '',
             dosen_id: '',
-            loading: false
+            loading: false,
+            total: ''
             }
         },
     components: {
         FingerprintSpinner
+    },
+    created() {
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
+      .then(response => {
+        console.log(response)
+        this.total = response.data
+      })
     },
 
     mounted() {
@@ -45,11 +53,11 @@ export default {
             }).then(response => {
                 if(response.value) {
                     let data = {
-                        link: this.link,
+                        value: this.aic,
                         dosen_id: this.dosen_id
                     }
                     console.log(data)
-                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records', data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/aic/store', data)
                         .then(response => {
                             console.log(response)
                             Swal.fire({
@@ -62,7 +70,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             })
-                            this.$router.push('/historysc')
+                            this.$router.push('/')
                         })
                         .catch(error => console.log(error))
                 }else if(response.dismiss === Swal.DismissReason.cancel) {
@@ -96,22 +104,24 @@ export default {
 
 <template>
         <div class="content">
-            <div class="container-
-            uid">
+            <div class="container-fluid">
                 <div class="row text-center">
                     <div class="col-md-6 mx-auto text-center" style="margin-top:90px;">
                         <div class="card card-olive">
                             <div class="card-header">
-                                <h3 class="card-title">Submit SC</h3>
+                                <h3 class="card-title">Submit AIC</h3>
                             </div>
                             <div class="card-body">
                                 <form role="form">
                                     <div class="row">
                                         <div class="col-sm-12 mt-2">
-                                            <div class="form-group">
-                                                <label>Link CerMi</label>
-                                                <input v-model="link" type="text" class="form-control">
-                                                <p>*Masukkan link CerMi untuk bukti mendapatkan Special Contribution*</p>
+                                           <div class="form-group">
+                                                <label>AIC</label>
+                                                <select class="custom-select text-center" v-model="aic">
+                                                    <option :value="total.total_aic">
+                                                        {{total.total_aic}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
                                         <!-- <div class="col-sm-12">

@@ -63,7 +63,7 @@ export default {
             
             const lala = [baru[3], bulan, baru[2]].join('-')
             console.log(lala)
-            axios.post('http://localhost/api/user/records/user/' + this.user_id, {date:lala})
+            axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/user/' + this.user_id, {date:lala})
                 .then(response => {
                     console.log('tanggal',response)
                     // const dataRes =  response.data.Data
@@ -86,7 +86,7 @@ export default {
     },
     
     mounted (){
-        axios.post('http://localhost/api/user/records/user/' + this.user_id)
+        axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/user/' + this.user_id)
             .then(response => {
                 console.log(response)
                 // this.all_data = response.data.Data

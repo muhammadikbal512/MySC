@@ -53,7 +53,7 @@ export default {
         onSuccess(googleUser) {
             console.log(googleUser)
             const accessToken = {
-                access_token: googleUser.qc.access_token
+                access_token: googleUser.mc.access_token
             }
 
             this.$store.dispatch("ssoGoogle", accessToken)

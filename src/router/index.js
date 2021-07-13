@@ -6,6 +6,7 @@ import Login from '../components/Login/Login'
 import UserNavbar from '../components/User/Navbar/UserNavbar'
 import HistorySc from '../components/User/HistorySC/HistorySC'
 import SubmitSc from '../components/User/SubmitSC/SubmitSC'
+import SubmitAic from '../components/User/SubmitAIC/SubmitAIC'
 // import SubmittedSc from '../components/User/SubmittedSC/Submittedsc'
 
 
@@ -30,6 +31,10 @@ const routes = [
             {
                 path: '/submitsc',
                 component: SubmitSc
+            },
+            {
+                path: '/submitaic',
+                component: SubmitAic
             },
             {
                 path: '/historysc',

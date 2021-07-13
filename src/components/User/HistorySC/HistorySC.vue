@@ -68,7 +68,7 @@ export default {
             
             const lala = [baru[3], bulan, baru[2]].join('-')
             console.log(lala)
-            axios.post('http://localhost:8000/api/user/records/show/pending/' + this.$store.state.user.id, {date:lala})
+            axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/pending/' + this.$store.state.user.id, {date:lala})
                 .then(response => {
                     console.log('tanggal',response)
                     // const dataRes =  response.data.Data
