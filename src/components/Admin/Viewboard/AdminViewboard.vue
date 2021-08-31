@@ -17,7 +17,8 @@ export default {
             verified: [],
             rejected: '',
             search: '',
-            list: ''
+            list: '',
+            redeemed: ''
         }
     },
     mounted() {
@@ -70,6 +71,57 @@ export default {
                 this.list = response.data.Data.Record
             })
         },
+        redeemedAIC() {
+            axios.get('http://localhost:8000/api/secretchamber/api/redeemed/aic')
+            .then(response => {
+                console.log(response)
+                this.redeemed = response.Data.Record
+            })
+        },
+        approveAll() {
+            swalWithBootstrap.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then(response => {
+                if(response.value) {
+                    let data = {
+                        Approve: 1.0
+                    }
+                    console.log(data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/records/all/feedbackApprove', data)
+                        .then(response => {
+                            console.log(response)
+                            Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                icon: 'success',
+                                title: 'Your result has been sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.allRecords();
+                            this.pendingRecords();
+                            this.verifiedRecords();
+                            this.rejectedRecords();
+                            this.listAIC();
+                        })
+                        .catch(error => console.log(error))
+                }else if(response.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrap.fire(
+                        'Cancelled',
+                        'Your result is still safe',
+                        'error'
+                    )
+                }
+            })
+        //For Approved a Record
+        },
         approve(id) {
             swalWithBootstrap.fire({
                 title: 'Are you sure ?',
@@ -97,9 +149,11 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             })
+                            this.allRecords();
                             this.pendingRecords();
                             this.verifiedRecords();
                             this.rejectedRecords();
+                            this.listAIC();
                         })
                         .catch(error => console.log(error))
                 }else if(response.dismiss === Swal.DismissReason.cancel) {
@@ -154,6 +208,136 @@ export default {
             })
         //For Approved a Record
         },
+        approveaic(id) {
+            swalWithBootstrap.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then(response => {
+                if(response.value) {
+                    let data = {
+                        Approve: 1.0
+                    }
+                    console.log(data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/claimaic/' + id + '/aic', data)
+                        .then(response => {
+                            console.log(response)
+                            Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                icon: 'success',
+                                title: 'Your result has been sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.pendingRecords();
+                            this.verifiedRecords();
+                            this.rejectedRecords();
+                            this.listAIC();
+                        })
+                        .catch(error => console.log(error))
+                }else if(response.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrap.fire(
+                        'Cancelled',
+                        'Your result is still safe',
+                        'error'
+                    )
+                }
+            })
+        //For Approved a AIC
+        },
+        rejectaic(id) {
+        swalWithBootstrap.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then(response => {
+                if(response.value) {
+                    let data = {
+                        Reject: 1.0
+                    }
+                    console.log(data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/claimaic/' + id + '/aic', data)
+                        .then(response => {
+                            console.log(response)
+                            Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                icon: 'success',
+                                title: 'Your result has been sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.pendingRecords();
+                            this.verifiedRecords();
+                            this.rejectedRecords();
+                            this.listAIC();
+                        })
+                        .catch(error => console.log(error))
+                }else if(response.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrap.fire(
+                        'Cancelled',
+                        'Your result is still safe',
+                        'error'
+                    )
+                }
+            })
+        //For Approved a AIC
+        },
+        approveAicAll() {
+            swalWithBootstrap.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then(response => {
+                if(response.value) {
+                    let data = {
+                        Approve: 1.0
+                    }
+                    console.log(data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/claimaic/all', data)
+                        .then(response => {
+                            console.log(response)
+                            Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                icon: 'success',
+                                title: 'Your result has been sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.allRecords();
+                            this.pendingRecords();
+                            this.verifiedRecords();
+                            this.rejectedRecords();
+                            this.listAIC();
+                        })
+                        .catch(error => console.log(error))
+                }else if(response.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrap.fire(
+                        'Cancelled',
+                        'Your result is still safe',
+                        'error'
+                    )
+                }
+            })
+        //For Approved a Record
+        },
         
     },
     computed: {
@@ -189,7 +373,7 @@ export default {
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>{{this.all.Record.length}}</h3>
+                                        <h3>{{this.all.Pending.length}}</h3>
                                         <p>Total Request Approval</p>
                                     </div>
                                     <div class="icon">
@@ -263,7 +447,10 @@ export default {
                                                     <a class="nav-link" href="#rejected" data-toggle="tab">Rejected</a>
                                                 </li>
                                                  <li class="nav-item">
-                                                    <a class="nav-link" href="#claimaic" data-toggle="tab">Claim AIC</a>
+                                                    <a class="nav-link" href="#claimaic" data-toggle="tab">Redeem AIC</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#redeemedaic" data-toggle="tab">Redeemed AIC</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -272,26 +459,27 @@ export default {
                                         <div class="tab-content">
                                             <div class="active tab-pane" id="pending">
                                                 <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search">
+                                                <button type="button" @click="approveAll()" class="btn btn-success btn-sm">Approve All</button>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
                                                         <th>No</th>
                                                         <th>User</th>
-                                                        <th>Link</th>
+                                                        <th>SC</th>
                                                         <th>Submitted at</th>
                                                         <th>Decision</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="(value, length) in filteredPending" :key="value.id">
-                                                            <td>{{ length + 1 }}</td>
+                                                            <td>{{ filteredPending.length - length }}</td>
                                                             <td>{{ value.user.name }}</td>
-                                                            <td>{{ value.link }}</td>
+                                                            <td>{{ value.sc }}</td>
                                                             <td>{{ value.created_at }}</td>
                                                             <td>
                                                                 <div class="timeline-footer">
-                                                                    <a @click="approve(value.id)" class="btn btn-primary btn-sm">Approve</a>
-                                                                    <a @click="reject(value.id)" class="btn btn-danger btn-sm">rejected</a>
+                                                                    <button type="button" @click="approve(value.id)" class="btn btn-success btn-sm mr-3">Approve</button>
+                                                                    <button type="button" @click="reject(value.id)" class="btn btn-danger btn-sm">rejected</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -305,18 +493,18 @@ export default {
                                                         <tr>
                                                         <th>No</th>
                                                         <th>User</th>
-                                                        <th>Link</th>
+                                                        <th>SC</th>
                                                         <th>Submitted at</th>
                                                         <th>Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="(value, length) in filteredVerified" :key="value.id">
-                                                            <td>{{ length + 1 }}</td>
+                                                            <td>{{ filteredVerified.length - length }}</td>
                                                             <td>{{ value.user.name }}</td>
-                                                            <td>{{ value.link }}</td>
+                                                            <td>{{ value.sc }}</td>
                                                             <td>{{ value.created_at }}</td>
-                                                            <td>{{ value.status }}</td>
+                                                            <td><span class="badge badge-success">{{value.status}}</span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -328,44 +516,73 @@ export default {
                                                         <tr>
                                                         <th>No</th>
                                                         <th>User</th>
-                                                        <th>Link</th>
+                                                        <th>SC</th>
                                                         <th>Submitted at</th>
                                                         <th>Decision</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="(value, length) in filteredRejected" :key="value.id">
-                                                            <td>{{ length + 1 }}</td>
+                                                            <td>{{ filteredRejected.length - length }}</td>
                                                             <td>{{ value.user.name }}</td>
-                                                            <td>{{ value.link }}</td>
+                                                            <td>{{ value.sc }}</td>
                                                             <td>{{ value.created_at }}</td>
-                                                            <td>{{ value.status }}</td>
+                                                            <td><span class="badge badge-danger">{{value.status}}</span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="claimaic">
+                                                <button style="margin-left:1000px; margin-bottom:30px;" type="button" @click="approveAicAll()" class="btn btn-success btn-sm">Approve All</button>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
                                                         <th>No</th>
                                                         <th>User</th>
                                                         <th>AIC</th>
+                                                        <th>Status</th>
+                                                        <th>No OVO</th>
                                                         <th>Submitted at</th>
                                                         <th>Decision</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="(value, length) in list" :key="value.id">
-                                                            <td>{{ length + 1 }}</td>
+                                                            <td>{{ list.length - length }}</td>
                                                             <td>{{ value.user.name }}</td>
                                                             <td>{{ value.value }}</td>
+                                                            <td>{{ value.status }}<td>
+                                                            <td>{{ value.rekening }}<td>
                                                             <td>{{ value.created_at }}</td>
                                                             <td>
-                                                                <div class="timeline-footer">
-                                                                    <a @click="approve(value.id)" class="btn btn-primary btn-sm">Approve</a>
-                                                                    <a @click="reject(value.id)" class="btn btn-danger btn-sm">rejected</a>
+                                                                <div v-if="value.status === 'pending'" class="timeline-footer">
+                                                                    <button type="button" @click="approveaic(value.id)" class="btn btn-success btn-sm mr-3">Approve</button>
+                                                                    <button type="button" @click="rejectaic(value.id)" class="btn btn-danger btn-sm">rejected</button>
                                                                 </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="redeemedaic">
+                                                <button style="margin-left:1000px; margin-bottom:30px;" type="button" @click="approveAicAll()" class="btn btn-success btn-sm">Approve All</button>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                        <th>No</th>
+                                                        <th>User</th>
+                                                        <th>AIC</th>
+                                                        <th>Status</th>
+                                                        <th>No OVO</th>
+                                                        <th>Submitted at</th>
+                                                        <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="(value, length) in redeemed" :key="value.id">
+                                                            <td>{{ list.length - length }}</td>
+                                                            <td>
+                                                                
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -422,6 +639,14 @@ export default {
     text-align: center;
     text-decoration: none;
     z-index: 10;
+}
+.reverseorder {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.active {
+    background-color: #ffff;
 }
 </style>
 

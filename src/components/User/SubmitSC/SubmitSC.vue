@@ -13,11 +13,13 @@ const swalWithBootstrap = Swal.mixin({
 export default {
     data() {
         return {
-            link: '',
+            sc: '',
             created_at:'',
             dosen: '',
             dosen_id: '',
-            loading: false
+            loading: false,
+            mahasiswa: '',
+            // total_sc : ''
             }
         },
     components: {
@@ -31,21 +33,40 @@ export default {
             this.dosen  =   response.data.dropdown_list
         })
     },
-    
+
+    created() {
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/sc')
+      .then(response => {
+        console.log(response)
+        // this.mahasiswa = response.data
+        this.sc = parseInt(response.data[0].sc) + 1
+      })
+    },
+
+     computed:{
+         
+        test(){
+            return '1'
+        },
+     
+     },
     methods: {
         submit() {
             this.loading = true
-            swalWithBootstrap.fire({
-                title: 'Are you sure ?',
-                icon: 'warning',
+            Swal.fire({
+                text: "Are you sure ?",
+                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                imageWidth: 150,
+                imageHeight: 60,
                 showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
+                confirmButtonColor: '#27a745',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!',
                 reverseButtons: true
             }).then(response => {
                 if(response.value) {
                     let data = {
-                        link: this.link,
+                        sc: this.sc,
                         dosen_id: this.dosen_id
                     }
                     console.log(data)
@@ -109,9 +130,17 @@ export default {
                                     <div class="row">
                                         <div class="col-sm-12 mt-2">
                                             <div class="form-group">
-                                                <label>Link CerMi</label>
-                                                <input v-model="link" type="text" class="form-control">
-                                                <p>*Masukkan link CerMi untuk bukti mendapatkan Special Contribution*</p>
+                                                <label>SC</label>
+                                                <div v-if="sc.length === 0 ">
+                                                    <select class="custom-select" v-model="sc">
+                                                        <option value="1">
+                                                            1
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div v-else>
+                                                     <input v-model="sc" disabled type="text" placeholder="SC #" class="form-control">
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- <div class="col-sm-12">
@@ -149,3 +178,11 @@ export default {
             </div>
         </div>
 </template>
+
+<style scoped>
+
+.card-primary.card-outline {
+    border-top: 3px solid green !important;
+}
+
+</style>

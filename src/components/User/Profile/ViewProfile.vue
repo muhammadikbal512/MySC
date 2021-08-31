@@ -12,30 +12,33 @@ export default {
             pending: '',
             verified : '',
             exp: '',
-            badge: ''
+            badge: '',
+            user: ''
         }
     },
     created() {
-      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user/' + this.$route.params.id)
       .then(response => {
         console.log(response)
         this.mahasiswa = response.data
       })
 
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/user/' + this.$route.params.id)
+      .then(response=> {
+        console.log('user', response)
+        this.user = response.data
+      })
+
       
     },
     mounted() {
-      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/sc')
-      .then(response => {
-        console.log(response)
-      })
       //Get Level
-      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user/' + this.id + '/progress')
+      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user/' + this.$route.params.id + '/progress')
       .then(response => {
         this.exp = response.data
         this.badge = response.data.badge
 
-        console.log('badge', this.badge)
+        console.log('exp', this.exp)
       })
     }
 }
@@ -54,30 +57,30 @@ export default {
                       
                     </div>
                     <div class="text-center">
-                      <img class="img-fluid profile-user-img" style="border-radius:50%;" :src="this.$store.state.user.photo">
+                      <img class="img-fluid profile-user-img" style="border-radius:50%;" :src="this.mahasiswa.media">
                     </div>
 
-                    <h3 class="profile-username text-center">{{this.$store.state.user.name}}</h3>
+                    <h3 class="profile-username text-center">{{this.mahasiswa.detail_exp.user.name}}</h3>
 
-                    <p class="text-muted text-center">{{this.$store.state.user.role,}} - {{ this.$store.state.user.team }}</p>
+                    <p class="text-muted text-center">{{ this.user.role.name }} - {{this.user.team}}</p>
 
-                    <p class="text-muted text-center">{{ this.mahasiswa.total_sc }} / {{ this.exp.detail_level.max_value }} | {{ this.exp.detail_level.name }}</p>
+                    <p class="text-muted text-center">{{this.mahasiswa.detail_exp.total_sc}} / {{ this.exp.detail_level.max_value }} | {{ this.exp.detail_level.name }}</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
                       <li class="list-group-item" style="background-color:green; color:white; padding:5px;">
-                        <b>Claim SC</b> <a class="float-right">{{ this.mahasiswa.total_sc }}</a>
+                        <b>Claim SC</b> <a class="float-right">{{ this.mahasiswa.detail_exp.total_sc }}</a>
                       </li>
                       <li class="list-group-item" style="background-color:black; color:white; padding:5px;">
-                        <b>AIC</b> <a class="float-right">{{ this.mahasiswa.total_aic }}</a>
+                        <b>AIC</b> <a class="float-right">{{ this.mahasiswa.detail_exp.total_aic }}</a>
                       </li>
                       <li class="list-group-item" style="background-color:green; color:white; padding:5px;">
-                        <b>Redeemed AIC</b> <a class="float-right">{{ this.mahasiswa.claimaic }}</a>
+                        <b>Redeemed AIC</b> <a class="float-right">{{ this.mahasiswa.detail_exp.claimaic }}</a>
                       </li>
                     </ul>
 
-                    <router-link tag ="button" to="/submitsc" class="btn btn-success btn-block"><b>Claim SC</b></router-link>
+                    <!-- <router-link tag ="button" to="/submitsc" class="btn btn-success btn-block"><b>Submit SC</b></router-link> -->
                     
-                    <router-link tag="button" :disabled="mahasiswa.total_aic === 0" to="/submitaic" class="btn btn-success btn-block"><b>Redeem AIC</b></router-link>
+                    <!-- <router-link tag="button" :disabled="mahasiswa.total_aic === 0" to="/submitaic" class="btn btn-success btn-block"><b>Claim AIC</b></router-link> -->
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -94,56 +97,56 @@ export default {
               <div class="row text-center">
                 <div class="col-md-3">
                   <img src="@/assets/img/iron.png" alt="">
-                  <p>Bronze</p>
+                  <p>Iron</p>
                   <p>0 / 10</p>
                   </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/bronze.png" alt="">
-                  <p>Silver</p>
+                  <p>Bronze</p>
                   <p>11 / 20</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Silver.png" alt="">
-                  <p>Copper</p>
+                  <p>Silver</p>
                   <p>21 / 30</p>
                   </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Gold.png" alt="">
-                  <p>Ruby</p>
+                  <p>Gold</p>
                   <p>31 / 40</p>
                 </div>
               </div>
               <div class="row text-center">
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Platinum.png" alt="">
-                  <p>Gold</p>
+                  <p>Platinum</p>
                   <p>41 / 50</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Emerald.png" alt="">
-                  <p>Diamond</p>
+                  <p>Emerald</p>
                   <p>51 / 60</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Diamond.png" alt="">
-                  <p>Saphire</p>
+                  <p>Diamond</p>
                   <p>61 / 70</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Master.png" alt="">
-                  <p>Jade</p>
+                  <p>Master</p>
                   <p>71 / 80</p>
                 </div>
               </div>
                <div class="row text-center">
                 <div class="col-md-6"> 
                   <img src="@/assets/img/Grandmaster.png" alt="">
-                  <p>Pearl</p>
+                  <p>Grandmaster</p>
                   <p>81 / 90</p>
                 </div>
                 <div class="col-md-6"> 
                   <img src="@/assets/img/Challanger.png" alt="">
-                  <p>Emerald</p>
+                  <p>Challanger</p>
                   <p>91 / 100</p>
                 </div> 
               </div>

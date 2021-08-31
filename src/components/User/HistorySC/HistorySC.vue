@@ -2,6 +2,13 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import Datepicker from 'vuejs-datepicker'
+const swalWithBootstrap = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success py-2 px-4',
+        cancelButton : 'btn btn-danger py-2 px-4 mx-3'
+    },
+    buttonsStyling: false
+})
 export default {
     data() {
         return {
@@ -10,12 +17,63 @@ export default {
             verified: '',
             rejected: '',
             total_sc: '',
-            date: new Date()
+            date: new Date(),
+            list: '',
+            claimaic: '',
+            gavesc: ''
         }
     },
 
     components: {
         Datepicker
+    },
+    mounted (){
+        //Total SC
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
+      .then(response => {
+        console.log(response)
+        this.total_sc = response.data.total_sc
+      })
+
+        //Show Pending SC
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/pending')
+            .then(response => {
+                console.log('pending', response)
+                this.pending = response.data.detail_record
+            })
+            .catch(error => {
+                console.log(error)
+                
+            })
+        //show Approved SC
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/approved')
+            .then(response => {
+                console.log('approved', response)
+                this.verified = response.data.detail_record
+            })
+            .catch(error => {
+                console.log(error)
+                
+            })
+        //show Rejected SC
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/rejected')
+            .then(response => {
+                console.log('rejected', response)
+                this.rejected = response.data.detail_record
+            })
+            .catch(error => {
+                console.log(error)
+                
+            })
+        
+        //show AIC
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/redeemsc')
+        .then(response => {
+            console.log('claimaic', response)
+            this.claimaic = response.data.Data.Record
+        })
+
+        this.showgave()
     },
 
     methods:{
@@ -88,68 +146,57 @@ export default {
                                 timer: 1500
                             })
                 })
+        },
+        approve(id) {
+            swalWithBootstrap.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then(response => {
+                if(response.value) {
+                    let data = {
+                        Approve: 1.0
+                    }
+                    console.log(data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/givesc/' + id + '/feedbackApprove', data)
+                        .then(response => {
+                            console.log(response)
+                            Swal.fire({
+                                position: 'center',
+                                imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
+                                imageWidth: 150,
+                                imageHeight: 60,
+                                icon: 'success',
+                                title: 'Your result has been sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.showgave()
+                        })
+                        .catch(error => console.log(error))
+                }else if(response.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrap.fire(
+                        'Cancelled',
+                        'Your result is still safe',
+                        'error'
+                    )
+                }
+            })
+        //For Approved a Record
+        },
+        showgave() {
+        //show GaveSC from Dosen
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/givesc')
+        .then(response => {
+            console.log(response)
+            this.gavesc = response.data.Data.Record
+        })
         }
     },
 
-
-    mounted (){
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
-      .then(response => {
-        console.log(response)
-        this.total_sc = response.data.total_sc
-      })
-
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/pending')
-            .then(response => {
-                console.log('pending', response)
-                this.pending = response.data.detail_record
-            })
-            .catch(error => {
-                console.log(error)
-                
-            })
-
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/approved')
-            .then(response => {
-                console.log('approved', response)
-                this.verified = response.data.detail_record
-            })
-            .catch(error => {
-                console.log(error)
-                
-            })
-
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/show/rejected')
-            .then(response => {
-                console.log('rejected', response)
-                this.rejected = response.data.detail_record
-            })
-            .catch(error => {
-                console.log(error)
-                
-            })
-        
-        
-
-        // //for showing all Pending Records
-        // axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/pending')
-        // .then(response => {
-        //     this.pending = response.data
-        // })
-
-        // //for showing all Verified Records
-        // axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/records/verified')
-        // .then(response => {
-        //     console.log('verified', response)
-        //     this.verified = response.data
-        // })
-
-        // //For showing all Denied Records
-        // axios.get('https://dev.alphabetincubator.id/mysc-backend/public/user/api/records/rejected')
-        // .then(response => {
-        //     console.log('denied', response)
-        // })
-    }
 }
 </script>
 
@@ -180,7 +227,7 @@ export default {
                                         </label>
                                         <button @click="Submit()" class="btn btn-sm btn-primary ml-4">Submit</button>
                                     </div>
-                                    <ul class="nav nav-pills">
+                                    <ul class="nav nav-pills pt-4">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#pending" data-toggle="tab">Pending</a>
                                         </li>
@@ -189,6 +236,12 @@ export default {
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#denied" data-toggle="tab">Denied</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#claimaic" data-toggle="tab">Redeem AIC</a>
+                                        </li>
+                                         <li class="nav-item">
+                                            <a class="nav-link" href="#gavesc" data-toggle="tab">Give SC</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -201,18 +254,18 @@ export default {
                                                 <tr>
                                                 <th>No</th>
                                                 <th>User</th>
-                                                <th>Link</th>
+                                                <th>SC</th>
                                                 <th>Submitted at</th>
                                                 <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(value, length) in pending" :key="value.id">
-                                                    <td>{{ length + 1 }}</td>
+                                                    <td>{{ pending.length - length }}</td>
                                                     <td>{{ value.user.name }}</td>
-                                                    <td>{{ value.link }}</td>
+                                                    <td>{{ value.sc }}</td>
                                                     <td>{{ value.created_at }}</td>
-                                                    <td>{{ value.status }}</td>
+                                                    <td><span class="badge badge-warning">{{value.status}}</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -223,18 +276,18 @@ export default {
                                                 <tr>
                                                 <th>No</th>
                                                 <th>User</th>
-                                                <th>Link</th>
+                                                <th>SC</th>
                                                 <th>Submitted at</th>
                                                 <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(value, length) in verified" :key="value.id">
-                                                    <td>{{ length + 1 }}</td>
+                                                    <td>{{ verified.length - length }}</td>
                                                     <td>{{ value.user.name }}</td>
-                                                    <td>{{ value.link }}</td>
+                                                    <td>{{ value.sc }}</td>
                                                     <td>{{ value.created_at }}</td>
-                                                    <td>{{ value.status }}</td>
+                                                    <td><span class="badge badge-success">{{value.status}}</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -245,18 +298,67 @@ export default {
                                                 <tr>
                                                 <th>No</th>
                                                 <th>User</th>
-                                                <th>Link</th>
+                                                <th>SC</th>
                                                 <th>Submitted at</th>
                                                 <th>Decision</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(value, length) in rejected" :key="value.id">
-                                                    <td>{{ length + 1 }}</td>
+                                                    <td>{{ rejected.length - length }}</td>
                                                     <td>{{ value.user.name }}</td>
-                                                    <td>{{ value.link }}</td>
+                                                    <td>{{ value.sc }}</td>
+                                                    <td>{{ value.created_at }}</td>
+                                                    <td><span class="badge badge-danger">{{value.status}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="claimaic">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th>No</th>
+                                                <th>User</th>
+                                                <th>AIC</th>
+                                                <th>No Ovo</th>
+                                                <th>Submitted at</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(value, length) in claimaic" :key="value.id">
+                                                    <td>{{ claimaic.length - length }}</td>
+                                                    <td>{{ value.user.name }}</td>
+                                                    <td>{{ value.value }}</td>
+                                                    <td>{{ value.rekening }}</td><span ></span>
+                                                    <td>{{value.status}}</td>
+                                                    <td>{{ value.created_at }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="gavesc">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th>No</th>
+                                                <th>SC</th>
+                                                <th>Submitted</th>
+                                                <th>Status</th>
+                                                <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(value, length) in gavesc" :key="value.id">
+                                                    <td>{{ gavesc.length - length }}</td>
+                                                    <td>{{ value.sc }}</td>
                                                     <td>{{ value.created_at }}</td>
                                                     <td>{{ value.status }}</td>
+                                                    <td>
+                                                        <div v-if="value.status === 'givesc'" class="timeline-footer">
+                                                            <button type="button" @click="approve(value.id)" class="btn btn-success btn-sm mr-3">Approve</button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -282,5 +384,9 @@ export default {
     font-weight: 400;
     margin: 0;
     padding-top: 10px;
+}
+.reverseorder {
+  display: flex;
+  flex-direction: column-reverse;
 }
 </style>

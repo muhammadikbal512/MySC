@@ -6,6 +6,7 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { 
     faFile, faTasks, faList, faAngleLeft, faSignOutAlt, faBars, faCircle, 

@@ -39,19 +39,24 @@
 <template>
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #619E85">
+       <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #619E85">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" style="color: #fff">
-                        <font-awesome-icon icon="bars" />
-                    </a>
-                </li>
+                <a href="" class="navbar-brand">
+                    <img src="@/assets/img/mysc.png" alt="MySC Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light" style="color:white;">MySC</span>
+                </a>
                 <li class="nav-item d-none d-sm-inline-block">
                     <router-link to="/" class="nav-link" style="color: #fff">Home</router-link>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <router-link to="/historysc" class="nav-link" style="color: #fff">MyHistory</router-link>
+                </li>
+                 <li class="nav-item d-none d-sm-inline-block">
+                    <router-link to="/profile" class="nav-link" style="color: #fff">Profile</router-link>
+                </li>
+                 <li class="nav-item d-none d-sm-inline-block">
+                    <router-link to="/teams" class="nav-link" style="color: #fff">Teams</router-link>
                 </li>
                 <div v-show="this.role === 'admin'">
                 <li class="nav-item d-none d-sm-inline-block">
@@ -62,21 +67,6 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-            <!-- Notifications Dropdown Menu -->
-
-            <!-- <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#" style="color: #fff">
-                    <font-awesome-icon :icon="['far', 'bell']" />
-                    <span class="badge badge-warning navbar-badge">0</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">0 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item">...
-                    </a>
-                </div>
-            </li> -->
-
                 <li class="nav-item">
                     <div class="hi-dropdown">
                         <a @click="logout()" class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" style="color: #fff">
@@ -89,16 +79,13 @@
                 </li>
             </ul>
         </nav>
-    <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
 
         <router-view />
-        <hr class="featurette-divider">
-        <footer class="container">
-        <p class="float-right"><a href="#">My Special Contribution</a></p>
-        <p>© Alphabet Incubator </p>
-      </footer>
+       <!-- Main Footer -->
+            <footer class="main-footer text-center">
+                <strong>Copyright 2021 <a href="https:/mysc.alphabetincubator.id" target="_blank">Universitas Raharja</a> | All Rights Reserved | Powered by <a href="https://alphabetincubator.id/">Alphabet Incubator</a> | Build With Love</strong>
+            </footer>
 <!-- ./wrapper -->
     </div>
 </template>
@@ -113,6 +100,10 @@ export default {
         }
     },
 
+    mounted () {
+        document.body.classList.add('layout-top-nav')
+    },
+
     methods: {
         logout() {
             Swal.fire({
@@ -121,7 +112,7 @@ export default {
                 imageWidth: 150,
                 imageHeight: 60,
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#27a745',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes!'
             })
@@ -132,7 +123,8 @@ export default {
                         imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
                         imageWidth: 150,
                         imageHeight: 60,
-                        text:'Success'
+                        text:'Success',
+                        confirmButtonColor:'#27a745'
                             }
                         )
                         this.$store.dispatch('logout')

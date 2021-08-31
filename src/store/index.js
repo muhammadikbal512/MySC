@@ -17,10 +17,6 @@ export default new Vuex.Store({
         status: '',
         token: '',
         user: {},
-        // like: false,
-        // dislike: false,
-        // detail:'',
-        // role:''
     },
     mutations: {
         
@@ -33,7 +29,6 @@ export default new Vuex.Store({
         AUTH_SUCCESS(state, token) {
             state.status = 'success'
             state.token = token
-            // state.role = role
         },
         AUTH_LOGOUT(state) {
             state.token = '',
@@ -46,27 +41,10 @@ export default new Vuex.Store({
             state.user.email = userData.Detail_user.email
             state.user.photo = userData.Media[0].path
             state.user.role = userData.Role[0].name
+            state.user.team = userData.Detail_user.team
         },
-        // BEBAS(state){
-        //     state.like = true
-        // },
-        // SERAH(state){
-        //     state.dislike = true
-        // }
     },
-    // getters: {
-    //     getScore(state) {
-    //         var total = state.results.correct_answers + state.results.incorrect_answers;
-    //         return state.results.correct_answers + " / " + total
-    //     }
-    // },
     actions: {
-        // button({commit}) {
-        //     commit('BEBAS')
-        // },
-        // tombol({commit}) {
-        //     commit('SERAH')
-        // },
         ssoGoogle({commit}, access) {
             commit('AUTH_LOAD')
             axios.post("https://dev.alphabetincubator.id/mysc-backend/public/api/auth/callback/google", access)
@@ -85,7 +63,7 @@ export default new Vuex.Store({
                         showConfirmButton: false,
                         timer: 3500
                     })
-                    if(response.data.role === 'dosen' || response.data.role === "admin") {
+                    if(response.data.role === 'Lecturer' || response.data.role === "admin") {
                         router.push('/admin')
                   }
                   else

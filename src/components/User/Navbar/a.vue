@@ -42,42 +42,29 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #619E85">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-                <li class="nav-item d-none d-sm-inline-block">
-                    <router-link to="/admin" class="nav-link mb-0" style="color: #fff">Home</router-link>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" style="color: #fff">
+                        <font-awesome-icon icon="bars" />
+                    </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <router-link to="/admin/givesc" class="nav-link mb-0" style="color: #fff">Give SC</router-link>
+                    <router-link to="/" class="nav-link" style="color: #fff">Home</router-link>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <router-link to="/admin/user" class="nav-link mb-0" style="color: #fff">User</router-link>
+                    <router-link to="/historysc" class="nav-link" style="color: #fff">MyHistory</router-link>
                 </li>
                  <li class="nav-item d-none d-sm-inline-block">
-                    <router-link to="/admin/teams" class="nav-link mb-0" style="color: #fff">Teams</router-link>
+                    <router-link to="/profile" class="nav-link" style="color: #fff">Profile</router-link>
                 </li>
                 <div v-show="this.role === 'admin'">
                 <li class="nav-item d-none d-sm-inline-block">
-                    <router-link to="/" class="nav-link" style="color: #fff">User Page</router-link>
+                    <router-link to="/admin" class="nav-link" style="color: #fff">Secret Chamber</router-link>
                 </li>
                 </div>
             </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-            <!-- Notifications Dropdown Menu -->
-
-            <!-- <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#" style="color: #fff">
-                    <font-awesome-icon :icon="['far', 'bell']" />
-                    <span class="badge badge-warning navbar-badge">0</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">0 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item">...
-                    </a>
-                </div>
-            </li> -->
-
                 <li class="nav-item">
                     <div class="hi-dropdown">
                         <a @click="logout()" class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" style="color: #fff">
@@ -92,9 +79,13 @@
         </nav>
     <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
 
         <router-view />
+        <hr class="featurette-divider">
+       <!-- Main Footer -->
+            <footer class="main-footer text-center">
+                <strong>Copyright 2021 <a href="https:/mysc.alphabetincubator.id" target="_blank">Universitas Raharja</a> | All Rights Reserved | Powered by <a href="https://alphabetincubator.id/">Alphabet Incubator</a> | Build With Love</strong>
+            </footer>
 <!-- ./wrapper -->
     </div>
 </template>
@@ -105,12 +96,10 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            role: this.$store.state.user.role
+            role : this.$store.state.user.role
         }
     },
-    mounted() {
-        document.body.classList.add('layout-top-nav')
-    },
+
     methods: {
         logout() {
             Swal.fire({
@@ -121,8 +110,7 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#27a745',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!',
-                reverseButtons: true
+                confirmButtonText: 'Yes!'
             })
                 .then(result => {
                     if(result.value) {
@@ -132,7 +120,7 @@ export default {
                         imageWidth: 150,
                         imageHeight: 60,
                         text:'Success',
-                        confirmButtonColor: '#27a745'
+                        confirmButtonColor:'#27a745'
                             }
                         )
                         this.$store.dispatch('logout')
@@ -143,7 +131,7 @@ export default {
     async created() {
         await axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/auth/user')
             .then(response => {
-                console.log('test', response)
+                console.log(response)
                 this.name = response.data.User.Detail_user.name
                 this.photo = response.data.User.Media[0].path
                 this.$store.dispatch('addDataUser', response.data.User)                

@@ -1,7 +1,7 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import { FingerprintSpinner } from 'epic-spinners'
+// import { FingerprintSpinner } from 'epic-spinners'
 
 const swalWithBootstrap = Swal.mixin({
     customClass: {
@@ -13,39 +13,30 @@ const swalWithBootstrap = Swal.mixin({
 export default {
     data() {
         return {
-            aic: '',
-            created_at:'',
-            dosen: '',
+            name : this.$route.params.name,
+            user_id : this.$route.params.id,
+            sc: '',
             dosen_id: '',
-            loading: false,
-            total: '',
-            rekening: ''
             }
         },
-    components: {
-        FingerprintSpinner
-    },
-    created() {
-      axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
-      .then(response => {
-        console.log(response)
-        this.total = response.data
-      })
+    mounted() {
+       
     },
 
-    mounted() {
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/users/dosen')
+    created() {
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/records/get/' + this.user_id)
         .then(response => {
             console.log(response)
-            this.dosen  =   response.data.dropdown_list
-        })
+        this.sc = parseInt(response.data.sc) + 1
+      })
+     
     },
     
     methods: {
         submit() {
             this.loading = true
             Swal.fire({
-                text: "Are you sure to logout?",
+                text: "Are you sure ?",
                 imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
                 imageWidth: 150,
                 imageHeight: 60,
@@ -57,13 +48,11 @@ export default {
             }).then(response => {
                 if(response.value) {
                     let data = {
-                        value: this.aic,
-                        dosen_id: this.dosen_id,
-                        rekening: this.rekening
+                        sc: this.sc,
+                        user_id: this.user_id
                     }
                     console.log(data)
-                    // https://dev.alphabetincubator.id/mysc-backend/public/api/user/aic/store
-                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/aic/store', data)
+                    axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/givesc/records', data)
                         .then(response => {
                             console.log(response)
                             Swal.fire({
@@ -76,7 +65,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             })
-                            this.$router.push('/')
+                            this.$router.push('/admin')
                         })
                         .catch(error => console.log(error))
                 }else if(response.dismiss === Swal.DismissReason.cancel) {
@@ -110,40 +99,29 @@ export default {
 
 <template>
         <div class="content">
-            <div class="container-fluid">
+            <div class="container-
+            uid">
                 <div class="row text-center">
                     <div class="col-md-6 mx-auto text-center" style="margin-top:90px;">
                         <div class="card card-olive">
                             <div class="card-header">
-                                <h3 class="card-title">Claim AIC</h3>
+                                <h3 class="card-title">Submit SC</h3>
                             </div>
                             <div class="card-body">
                                 <form role="form">
                                     <div class="row">
-                                        <div class="col-sm-12 mt-2">
-                                           <div class="form-group">
-                                                <label>AIC</label>
-                                                <select class="custom-select text-center" v-model="aic">
-                                                    <option :value="total.total_aic">
-                                                        {{total.total_aic}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 mt-2">
-                                            <div class="form-group">
-                                                <label>No. OVO</label>
-                                                <input v-model="rekening" type="number" placeholder="Masukkan no OVO" class="form-control">
-                                            </div>
-                                        </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                    <label>Pilih Dosen</label>
-                                                    <select class="custom-select" v-model="dosen_id">
-                                                        <option v-for="index in dosen" :key="index.id" :value="index.id">
-                                                            {{index.name}}
-                                                        </option>
-                                                    </select>
+                                                    <label>Nama</label>
+                                                    <input disabled :placeholder="name" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 mt-2">
+                                            <div class="form-group">
+                                                <label>SC</label>
+                                                <input v-model="sc" disabled type="text" class="form-control">
+                                                <p>*SC ke berapa *</p>
                                             </div>
                                         </div>
                                     </div>
