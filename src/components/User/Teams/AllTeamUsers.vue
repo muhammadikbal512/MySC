@@ -23,12 +23,21 @@ export default {
             teams: '',
             loading: false,
             showButton : false,
-            team: ''
+            team: '',
+            mahasiswa: ''
        }
    },
    methods: {
        toggleAddTask() {
             this.showButton = !this.showButton
+        },
+        getMahasiswa() {
+            axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
+            .then(response => {
+                console.log('mahasiswa', response)
+                this.mahasiswa = response.data
+            
+            })
         },
         submit() {
             const data = {
@@ -44,7 +53,7 @@ export default {
                 confirmButtonText: 'Yes'
             })  .then(result => {
                     if(result.value) {
-                        axios.post('http://localhost:8000/api/create/team', data)
+                        axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/create/team', data)
                             .then(response => {
                                 console.log(response)
                                 Swal.fire(
@@ -60,16 +69,41 @@ export default {
                     }
             })
         },
+        jointeam(id) {
+            Swal.fire({
+                title: 'Are you sure ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'teal',
+                cancelButtonColor: 'red',
+                confirmButtonText: 'Yes'
+            })  .then(result => {
+                    if(result.value) {
+                        axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/add/team/' + id)
+                            .then(response => {
+                                console.log(response)
+                                Swal.fire(
+                                    'Success!',
+                                )
+                                this.$router.push('/profile')
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    }
+            })
+        },
         getTeams() {
-        axios.get('http://localhost:8000/api/teams')
+        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/teams')
             .then(response => {
                 console.log(response)
                 this.allTeams = response.data.dropdown_list
             })
-        }
+        },
    },
    created() {
        this.getTeams();
+       this.getMahasiswa();
    }
 }
 
@@ -84,7 +118,7 @@ export default {
                         <h1 class="m-0 text-dark">All Teams</h1>
                         <Button 
                             @toggle-add-user="toggleAddTask" 
-                            :text="showButton ? 'Close' : 'Add User'" 
+                            :text="showButton ? 'Close' : 'Add Team'" 
                             :color="showButton ? 'red' : 'green'" />
                     </div>
                     <div v-show="showButton" class="col-sm-12">
@@ -94,7 +128,7 @@ export default {
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button @click="submit" class="btn btn-primary" type="submit">Submit</button>
+                                <button @click="submit()" class="btn btn-primary" type="submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -116,19 +150,28 @@ export default {
                             </div>
                             <div class="card-body table-responsive p-0">
                                 <!-- <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search"> -->
-                                <table class="table table-hover">
+                                <table class="table table-striped table-valign-middle">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Name</th>
+                                            <th>Total Members</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(value, length) in allTeams" :key="value.id">
                                             <td>{{ length + 1 }}.</td>
                                             <td>{{ value.team }}</td>
+                                            <td>{{ value.total }}</td>
                                             <td>
-                                                <button @click="submit()" class="btn btn-success">Join</button>
+                                                <button @click="jointeam(value.id)" class="btn btn-success">Join</button>
+                                            </td>
+                                            <td>
+                                                <router-link :to="{name: 'show-members', params: {id: value.id}}">
+                                                    Show Members
+                                                </router-link>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -161,6 +204,9 @@ export default {
                 </div>
             </div>
         </div>
+         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
     </div>
 </template>
 

@@ -12,14 +12,17 @@ export default {
             pending: '',
             verified : '',
             exp: '',
-            badge: ''
+            badge: '',
+            team: ''
         }
     },
     created() {
       axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user')
       .then(response => {
-        console.log(response)
+        console.log('mahasiswa', response)
         this.mahasiswa = response.data
+        this.team = response.data.user.team.team
+        console.log('team', this.team)
       })
 
       
@@ -46,12 +49,11 @@ export default {
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-            <div class="col-6 mx-auto">
+            <div class="col-lg-6 col-sm-12 mx-auto">
                 <div class="card card-primary card-outline mt-5">
                   <div class="card-body box-profile">
                     <div class="widget-user-image" style="margin-left: 0;">
                       <img :src="this.exp.detail_level.media.path" style="border: none; width: 50px; cursor: pointer" data-toggle="modal" data-target="#tier">
-                      
                     </div>
                     <div class="text-center">
                       <img class="img-fluid profile-user-img" style="border-radius:50%;" :src="this.$store.state.user.photo">
@@ -59,8 +61,9 @@ export default {
 
                     <h3 class="profile-username text-center">{{this.$store.state.user.name}}</h3>
 
-                    <p class="text-muted text-center">{{this.$store.state.user.role,}} - {{ this.$store.state.user.team }}</p>
-
+                    <div >
+                      <p class="text-muted text-center">{{this.$store.state.user.role,}} - {{ this.team }}</p>
+                    </div>
                     <p class="text-muted text-center">{{ this.mahasiswa.total_sc }} / {{ this.exp.detail_level.max_value }} | {{ this.exp.detail_level.name }}</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
@@ -82,6 +85,7 @@ export default {
                   <!-- /.card-body -->
                 </div>
             </div>
+            
         </div>
       </div>
       <div class="modal fade" id="tier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -94,56 +98,56 @@ export default {
               <div class="row text-center">
                 <div class="col-md-3">
                   <img src="@/assets/img/iron.png" alt="">
-                  <p>Bronze</p>
+                  <p>Iron</p>
                   <p>0 / 10</p>
                   </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/bronze.png" alt="">
-                  <p>Silver</p>
+                  <p>Bronze</p>
                   <p>11 / 20</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Silver.png" alt="">
-                  <p>Copper</p>
+                  <p>Silver</p>
                   <p>21 / 30</p>
                   </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Gold.png" alt="">
-                  <p>Ruby</p>
+                  <p>Gold</p>
                   <p>31 / 40</p>
                 </div>
               </div>
               <div class="row text-center">
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Platinum.png" alt="">
-                  <p>Gold</p>
+                  <p>Emerald</p>
                   <p>41 / 50</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Emerald.png" alt="">
-                  <p>Diamond</p>
+                  <p>Platinum</p>
                   <p>51 / 60</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Diamond.png" alt="">
-                  <p>Saphire</p>
+                  <p>Diamond</p>
                   <p>61 / 70</p>
                 </div>
                 <div class="col-md-3"> 
                   <img src="@/assets/img/Master.png" alt="">
-                  <p>Jade</p>
+                  <p>Master</p>
                   <p>71 / 80</p>
                 </div>
               </div>
                <div class="row text-center">
                 <div class="col-md-6"> 
                   <img src="@/assets/img/Grandmaster.png" alt="">
-                  <p>Pearl</p>
+                  <p>Grandmaster</p>
                   <p>81 / 90</p>
                 </div>
                 <div class="col-md-6"> 
                   <img src="@/assets/img/Challanger.png" alt="">
-                  <p>Emerald</p>
+                  <p>Challanger</p>
                   <p>91 / 100</p>
                 </div> 
               </div>

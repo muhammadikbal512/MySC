@@ -95,7 +95,7 @@ export default {
                                         />
                             </div>
                             <div class="card-body table-responsive p-0">
-                                <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search">
+                                <input type="text" v-model="search" style="margin:20px;" placeholder="search">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -150,6 +150,9 @@ export default {
                 </div>
             </div>
         </div>
+         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
     </div>
 </template>
 

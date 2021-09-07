@@ -66,9 +66,9 @@ export default {
                             <h1 class="m-0 text-dark mb-1">Top Ranking</h1>
                         </div>
                     </div><!-- /.row -->
-                    <router-link to="/" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
-                    <router-link to="/rankdosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
-                    <router-link to="/rankteam" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
+                    <router-link to="/admin/leaderboard" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
+                    <router-link to="/admin/leaderboard/dosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
+                    <router-link to="/admin/leaderboard/team" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
@@ -125,48 +125,47 @@ export default {
                         </div>
                         <div class="col-md-4">
                             <router-link style="color:black;" :to="{name: 'view-profile', params: {id: this.rank[0].detail_user.id, email: this.rank[0].detail_user.email}}">
-
-                            <div class="card card-widget widget-user">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-                                <div class="widget-user-header" style="background-color:#FFD700;">
-                                    <h3 class="widget-user-username text-center">RANK 1</h3>
-                                    <h5 class="widget-user-desc text-center">{{ this.rank[0].detail_user.name }}</h5>
-                                </div>
-                                <div class="widget-user-image">
+                                <div class="card card-widget widget-user">
+                                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                                    <div class="widget-user-header" style="background-color:#FFD700;">
+                                        <h3 class="widget-user-username text-center">RANK 1</h3>
+                                        <h5 class="widget-user-desc text-center">{{ this.rank[0].detail_user.name }}</h5>
+                                    </div>
+                                    <div class="widget-user-image">
                                         <img class="img-circle elevation-2 text-center" :src="this.rank[0].detail_user.media.path" alt="User Avatar">
-                                </div>
-                                 <div style="position: absolute; top: 0" class="widget-user-badge">
-                                    <img style="width: 60px" :src="this.rank[0].level.media.path" alt="badge">
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                    <div class="col-sm-4 border-right">
-                                        <div class="description-block">
-                                        <h5 class="description-header">{{ this.rank[0].total_sc }}</h5>
-                                        <span>SC</span>
+                                    </div>
+                                    <div style="position: absolute; top: 0" class="widget-user-badge">
+                                            <img style="width: 60px" :src="this.rank[0].level.media.path" alt="badge">
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                        <div class="col-sm-4 border-right">
+                                            <div class="description-block">
+                                            <h5 class="description-header">{{ this.rank[0].total_sc }}</h5>
+                                            <span>SC</span>
+                                            </div>
+                                            <!-- /.description-block -->
                                         </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-4 border-right">
-                                        <div class="description-block">
-                                        <h5 class="description-header">{{ this.rank[0].claimaic }}</h5>
-                                        <span>Redeemed AIC</span>
+                                        <!-- /.col -->
+                                        <div class="col-sm-4 border-right">
+                                            <div class="description-block">
+                                            <h5 class="description-header">{{ this.rank[0].claimaic }}</h5>
+                                            <span>Redeemed AIC</span>
+                                            </div>
+                                            <!-- /.description-block -->
                                         </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-4">
-                                        <div class="description-block">
-                                        <h5 class="description-header">{{ this.rank[0].level.name }}</h5>
-                                        <span>Tier</span>
+                                        <!-- /.col -->
+                                        <div class="col-sm-4">
+                                            <div class="description-block">
+                                            <h5 class="description-header">{{ this.rank[0].level.name }}</h5>
+                                            <span>Tier</span>
+                                            </div>
+                                            <!-- /.description-block -->
                                         </div>
-                                        <!-- /.description-block -->
+                                        <!-- /.col -->
+                                        </div>
+                                        <!-- /.row -->
                                     </div>
-                                    <!-- /.col -->
-                                    </div>
-                                    <!-- /.row -->
-                                </div>
                                 </div>
                             </router-link>
                         </div>
@@ -256,8 +255,7 @@ export default {
                 </div>
             <!-- /.content -->
             </div>
-
-            <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+             <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
         <font-awesome-icon icon="chevron-up" />
     </a>
             

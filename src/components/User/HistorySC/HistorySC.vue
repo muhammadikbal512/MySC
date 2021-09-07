@@ -218,7 +218,7 @@ export default {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header p-2">
-                                <h3 class="card-title">Submitted SC</h3>
+                                <!-- <h3 class="card-title">Submitted SC</h3> -->
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm"> 
                                         <label>
@@ -255,7 +255,7 @@ export default {
                                                 <th>No</th>
                                                 <th>User</th>
                                                 <th>SC</th>
-                                                <th>Submitted at</th>
+                                                <th>Submitted</th>
                                                 <th>Status</th>
                                                 </tr>
                                             </thead>
@@ -277,7 +277,7 @@ export default {
                                                 <th>No</th>
                                                 <th>User</th>
                                                 <th>SC</th>
-                                                <th>Submitted at</th>
+                                                <th>Submitted</th>
                                                 <th>Status</th>
                                                 </tr>
                                             </thead>
@@ -299,7 +299,7 @@ export default {
                                                 <th>No</th>
                                                 <th>User</th>
                                                 <th>SC</th>
-                                                <th>Submitted at</th>
+                                                <th>Submitted</th>
                                                 <th>Decision</th>
                                                 </tr>
                                             </thead>
@@ -322,7 +322,8 @@ export default {
                                                 <th>User</th>
                                                 <th>AIC</th>
                                                 <th>No Ovo</th>
-                                                <th>Submitted at</th>
+                                                <th>Status</th>
+                                                <th>Submitted</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -330,8 +331,8 @@ export default {
                                                     <td>{{ claimaic.length - length }}</td>
                                                     <td>{{ value.user.name }}</td>
                                                     <td>{{ value.value }}</td>
-                                                    <td>{{ value.rekening }}</td><span ></span>
-                                                    <td>{{value.status}}</td>
+                                                    <td>{{ value.rekening }}</td>
+                                                    <td>{{ value.status }}</td>
                                                     <td>{{ value.created_at }}</td>
                                                 </tr>
                                             </tbody>
@@ -370,6 +371,9 @@ export default {
                 </div>
             </div>
         </div>
+         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
     </div>
 </template>
 
@@ -388,5 +392,8 @@ export default {
 .reverseorder {
   display: flex;
   flex-direction: column-reverse;
+}
+.active {
+    background-color: #ffff;
 }
 </style>

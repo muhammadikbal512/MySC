@@ -6,29 +6,30 @@ export default {
             mahasiswa:'',
             latest_rank: '',
             rank:'',
-            teams: '',
+            dosen: '',
             id: ''
         }
     },
     methods: {
-        getTeam() {
-            axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/teams')
+        getDosen() {
+
+            axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/users/dosen')
             .then(response => {
                 console.log(response)
-                this.teams  =   response.data.dropdown_list
+                this.dosen  =   response.data.dropdown_list
             })
         },
-        getRecordTeam() {
-            axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/team/' + this.id)
+        getRecordDosen() {
+            axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/dosen/' + this.id)
             .then(response => {
                 console.log(response)
                 this.mahasiswa = response.data.details
             })
-        },
+        }
 
     },
     mounted () {
-        this.getTeam()
+        this.getDosen()
     }
 }
 </script>
@@ -42,9 +43,9 @@ export default {
                             <h1 class="m-0 text-dark mb-1">Top Ranking</h1>
                         </div>
                     </div><!-- /.row -->
-                    <router-link to="/" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
-                    <router-link to="/rankdosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
-                    <router-link to="/rankteam" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
+                     <router-link to="/admin/leaderboard" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
+                    <router-link to="/admin/leaderboard/dosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
+                    <router-link to="/admin/leaderboard/team" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
@@ -54,14 +55,13 @@ export default {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12 mt-3">
-                            <label>Pilih Team</label>
+                            <label>Pilih Dosen</label>
                                 <select class="custom-select" v-model="id" >
-                                    <option v-for="index in teams"
-                                     :key="index.id" :value="index.id">
-                                        {{index.team}}
+                                    <option v-for="index in dosen" :key="index.id" :value="index.id">
+                                        {{index.name}}
                                     </option>
                                 </select>
-                            <button @click="getRecordTeam()" style="margin:10px;" class="btn btn-success">Submit</button>
+                            <button @click="getRecordDosen()" style="margin:10px;" class="btn btn-success">Submit</button>
                         </div>
                         <div class="col-md-12">
                             <div class="card">

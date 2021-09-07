@@ -15,7 +15,7 @@
                     <p v-else class="d-inline">Loading...</p>
                 </a>
                 </GoogleLogin>
-                <p>Not Registered yet ? <router-link to="/register">Create an Account</router-link> </p>
+                <!-- <p>Not Registered yet ? <router-link to="/register">Create an Account</router-link> </p> -->
             </div>
         </section>
     </div>
@@ -175,11 +175,11 @@ section p {
 	text-align: center;
 }
 
-@media (max-width: 800px) {
+/* @media (max-width: 800px) {
 	section {
 		padding: 30px 20px;
 	}
-}
+} */
 
 /*Header Styles*/
 

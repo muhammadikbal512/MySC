@@ -42,9 +42,9 @@ export default {
                             <h1 class="m-0 text-dark mb-1">Top Ranking</h1>
                         </div>
                     </div><!-- /.row -->
-                    <router-link to="/" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
-                    <router-link to="/rankdosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
-                    <router-link to="/rankteam" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
+                     <router-link to="/admin/leaderboard" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
+                    <router-link to="/admin/leaderboard/dosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
+                    <router-link to="/admin/leaderboard/team" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->

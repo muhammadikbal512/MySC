@@ -27,6 +27,7 @@ export default {
         this.verifiedRecords();
         this.rejectedRecords();
         this.listAIC();
+        this.redeemedAIC();
     },
     methods: {
         allRecords() {
@@ -72,10 +73,10 @@ export default {
             })
         },
         redeemedAIC() {
-            axios.get('http://localhost:8000/api/secretchamber/api/redeemed/aic')
+            axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/redeemed/aic')
             .then(response => {
-                console.log(response)
-                this.redeemed = response.Data.Record
+                console.log('redeemed aic',response)
+                this.redeemed = response.data.Data.Record
             })
         },
         approveAll() {
@@ -373,8 +374,8 @@ export default {
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>{{this.all.Pending.length}}</h3>
-                                        <p>Total Request Approval</p>
+                                        <h3>{{this.redeemed.length}}</h3>
+                                        <p>Total Redeemed AIC</p>
                                     </div>
                                     <div class="icon">
                                         <i class="ion ion-bag"></i>
@@ -434,7 +435,7 @@ export default {
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header p-2">
-                                        <h3 class="card-title">Submitted SC</h3>
+                                        <!-- <h3 class="card-title">Submitted SC</h3> -->
                                         <div class="card-tools">
                                             <ul class="nav nav-pills">
                                                 <li class="nav-item">
@@ -458,15 +459,18 @@ export default {
                                     <div class="card-body">
                                         <div class="tab-content">
                                             <div class="active tab-pane" id="pending">
-                                                <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search">
-                                                <button type="button" @click="approveAll()" class="btn btn-success btn-sm">Approve All</button>
+                                                <div class="d-flex" style="justify-content:space-between;">
+                                                    <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search">
+                                                    <button type="button" @click="approveAll()" class="btn btn-success btn-sm mb-2">Approve All</button>
+                                                </div>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
                                                         <th>No</th>
                                                         <th>User</th>
                                                         <th>SC</th>
-                                                        <th>Submitted at</th>
+                                                        <th>Submitted</th>
+                                                        <th>Status</th>
                                                         <th>Decision</th>
                                                         </tr>
                                                     </thead>
@@ -476,6 +480,7 @@ export default {
                                                             <td>{{ value.user.name }}</td>
                                                             <td>{{ value.sc }}</td>
                                                             <td>{{ value.created_at }}</td>
+                                                            <td><span class="badge badge-warning">{{ value.status }}</span></td>
                                                             <td>
                                                                 <div class="timeline-footer">
                                                                     <button type="button" @click="approve(value.id)" class="btn btn-success btn-sm mr-3">Approve</button>
@@ -494,7 +499,7 @@ export default {
                                                         <th>No</th>
                                                         <th>User</th>
                                                         <th>SC</th>
-                                                        <th>Submitted at</th>
+                                                        <th>Submitted</th>
                                                         <th>Status</th>
                                                         </tr>
                                                     </thead>
@@ -517,8 +522,8 @@ export default {
                                                         <th>No</th>
                                                         <th>User</th>
                                                         <th>SC</th>
-                                                        <th>Submitted at</th>
-                                                        <th>Decision</th>
+                                                        <th>Submitted</th>
+                                                        <th>Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -533,17 +538,17 @@ export default {
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="claimaic">
-                                                <button style="margin-left:1000px; margin-bottom:30px;" type="button" @click="approveAicAll()" class="btn btn-success btn-sm">Approve All</button>
+                                                <button type="button" @click="approveAicAll()" class="btn btn-success btn-sm mb-2">Approve All</button>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                        <th>No</th>
-                                                        <th>User</th>
-                                                        <th>AIC</th>
-                                                        <th>Status</th>
-                                                        <th>No OVO</th>
-                                                        <th>Submitted at</th>
-                                                        <th>Decision</th>
+                                                            <th>No</th>
+                                                            <th>User</th>
+                                                            <th>AIC</th>
+                                                            <th>Status</th>
+                                                            <th>No OVO</th>
+                                                            <th>Submitted</th>
+                                                            <th>Decision</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -551,11 +556,11 @@ export default {
                                                             <td>{{ list.length - length }}</td>
                                                             <td>{{ value.user.name }}</td>
                                                             <td>{{ value.value }}</td>
-                                                            <td>{{ value.status }}<td>
-                                                            <td>{{ value.rekening }}<td>
+                                                            <td><span class="badge badge-warning">{{value.status}}</span></td>
+                                                            <td>{{ value.rekening }}</td>
                                                             <td>{{ value.created_at }}</td>
                                                             <td>
-                                                                <div v-if="value.status === 'pending'" class="timeline-footer">
+                                                                <div v-show="value.status === 'pending' ">
                                                                     <button type="button" @click="approveaic(value.id)" class="btn btn-success btn-sm mr-3">Approve</button>
                                                                     <button type="button" @click="rejectaic(value.id)" class="btn btn-danger btn-sm">rejected</button>
                                                                 </div>
@@ -565,7 +570,7 @@ export default {
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="redeemedaic">
-                                                <button style="margin-left:1000px; margin-bottom:30px;" type="button" @click="approveAicAll()" class="btn btn-success btn-sm">Approve All</button>
+                                                <button type="button" @click="approveAicAll()" class="btn btn-success btn-sm mb-2">Approve All</button>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
@@ -574,16 +579,17 @@ export default {
                                                         <th>AIC</th>
                                                         <th>Status</th>
                                                         <th>No OVO</th>
-                                                        <th>Submitted at</th>
-                                                        <th>Status</th>
+                                                        <th>Submitted</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="(value, length) in redeemed" :key="value.id">
-                                                            <td>{{ list.length - length }}</td>
-                                                            <td>
-                                                                
-                                                            </td>
+                                                            <td>{{ redeemed.length - length }}</td>
+                                                            <td>{{ value.user.name }}</td>
+                                                            <td>{{ value.value }}</td>
+                                                            <td><span class="badge badge-success">{{value.status}}</span></td>
+                                                            <td>{{ value.rekening }}</td>
+                                                            <td>{{ value.created_at }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -597,6 +603,9 @@ export default {
                 </div>
             </div>
         </div>
+         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
     </div>
 </template>
 
@@ -615,6 +624,18 @@ export default {
 
 .small-box {
     color: white;
+}
+
+@media only screen and (max-width: 600px) {
+    p-button {
+        margin-left: 10rem;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    p-button {
+        margin-left: 10rem;
+    }
 }
 
 .card-title {

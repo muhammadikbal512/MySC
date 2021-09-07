@@ -13,20 +13,23 @@ export default {
             verified : '',
             exp: '',
             badge: '',
-            user: ''
+            user: '',
+            team: ''
         }
     },
     created() {
       axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/experience/user/' + this.$route.params.id)
       .then(response => {
-        console.log(response)
+        console.log('mahasiswa', response)
         this.mahasiswa = response.data
+        
       })
 
       axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/user/user/' + this.$route.params.id)
       .then(response=> {
         console.log('user', response)
         this.user = response.data
+        this.team = response.data.team.team
       })
 
       
@@ -60,9 +63,9 @@ export default {
                       <img class="img-fluid profile-user-img" style="border-radius:50%;" :src="this.mahasiswa.media">
                     </div>
 
-                    <h3 class="profile-username text-center">{{this.mahasiswa.detail_exp.user.name}}</h3>
+                    <h3 class="profile-username text-center">{{this.user.name}}</h3>
 
-                    <p class="text-muted text-center">{{ this.user.role.name }} - {{this.user.team}}</p>
+                    <p class="text-muted text-center">{{this.team}}</p>
 
                     <p class="text-muted text-center">{{this.mahasiswa.detail_exp.total_sc}} / {{ this.exp.detail_level.max_value }} | {{ this.exp.detail_level.name }}</p>
 

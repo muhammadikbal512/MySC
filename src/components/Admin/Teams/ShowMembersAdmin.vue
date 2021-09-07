@@ -1,8 +1,6 @@
 <script>
 import axios from 'axios'
-import Button from '../AddUser/Button'
-import Swal from 'sweetalert2'
-import { OrbitSpinner } from 'epic-spinners'
+// import { OrbitSpinner } from 'epic-spinners'
 // const swalWithBootstrap = Swal.mixin({
 //     customClass: {
 //         confirmButton: 'btn btn-success py-2 px-4',
@@ -14,62 +12,26 @@ import { OrbitSpinner } from 'epic-spinners'
 
 export default {
     components: {
-        OrbitSpinner,
-        Button
+        // OrbitSpinner,
     },
    data() {
        return {
-            allTeams: '',
-            teams: '',
-            loading: false,
-            showButton : false,
-            team: ''
+        members: '',
+        //  loading: false,
        }
    },
    methods: {
-       toggleAddTask() {
-            this.showButton = !this.showButton
-        },
-        submit() {
-            const data = {
-                team: this.team,
-            }
-            // console.log(questData)
-            Swal.fire({
-                title: 'Are you sure ?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: 'teal',
-                cancelButtonColor: 'red',
-                confirmButtonText: 'Yes'
-            })  .then(result => {
-                    if(result.value) {
-                        axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/create/team', data)
-                            .then(response => {
-                                console.log(response)
-                                Swal.fire(
-                                    'Success!',
-                                    'Team has been Added',
-                                )
-                                    this.getTeams()
-                                    this.team = ''
-                            })
-                            .catch(error => {
-                                console.log(error)
-                            })
-                    }
-            })
-        },
-        getTeams() {
-        axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/teams')
-            .then(response => {
-                console.log(response)
-                this.allTeams = response.data.dropdown_list
-            })
-        }
+       getMembers() {
+           axios.post('https://dev.alphabetincubator.id/mysc-backend/public/api/show/team/' + this.$route.params.id)
+           .then(response => {
+               console.log(response)
+               this.members = response.data.team
+           })
+       }
+      
    },
    created() {
-       this.getTeams();
+       this.getMembers();
    }
 }
 
@@ -81,22 +43,7 @@ export default {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12" style="justify-content:space-between; display:flex;">
-                        <h1 class="m-0 text-dark">All Teams</h1>
-                        <Button 
-                            @toggle-add-user="toggleAddTask" 
-                            :text="showButton ? 'Close' : 'Add Team'" 
-                            :color="showButton ? 'red' : 'green'" />
-                    </div>
-                    <div v-show="showButton" class="col-sm-12">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input v-model="team" type="email" placeholder="Ex : Blueberry" class="form-control">
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <button @click="submit" class="btn btn-primary" type="submit">Submit</button>
-                            </div>
-                        </div>
+                        <h1 class="m-0 text-dark">Show Members</h1>
                     </div>
                 </div>
             </div>
@@ -106,34 +53,34 @@ export default {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="overlay" v-if="loading">
+                            <!-- <div class="overlay" v-if="loading">
                                 <orbit-spinner style="display: block; margin: auto"
                                         :animation-duration="1200"
                                         :size="55"
                                         color="black"
                                         />
-                            </div>
+                            </div> -->
                             <div class="card-body table-responsive p-0">
                                 <!-- <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search"> -->
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Total Members</th>
                                             <th></th>
+                                            <th>Name</th>
+                                            <th>Team</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(value, length) in allTeams" :key="value.id">
-                                            <td>{{ length + 1 }}.</td>
-                                            <td>{{ value.team }}</td>
-                                            <td>{{ value.total }}</td>
-                                            <td>
-                                                 <router-link :to="{name: 'show-members-admin', params: {id: value.id}}">
-                                                    Show Members
-                                                </router-link>
+                                        <tr v-for="(value, length) in members " :key="value.id">
+                                           <td>{{ length + 1 }}</td>
+                                           <td>
+                                               <router-link :to="{name: 'view-profile', params: {id:value.id, email:value.email}}">
+                                                <img class="img-circle img-size-32 mr-2" :src="value.media.path">
+                                               </router-link>
                                             </td>
+                                           <td>{{ value.name }}</td>
+                                           <td>{{ value.team.team }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -165,9 +112,6 @@ export default {
                 </div>
             </div>
         </div>
-         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
-        <font-awesome-icon icon="chevron-up" />
-    </a>
     </div>
 </template>
 

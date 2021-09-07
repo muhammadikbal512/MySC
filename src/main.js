@@ -9,21 +9,21 @@ Vue.config.productionTip = false
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { 
-    faFile, faTasks, faList, faAngleLeft, faSignOutAlt, faBars, faCircle, 
+    faFile, faTasks, faList, faAngleLeft, faSignOutAlt, faCircle, 
     faArrowCircleRight, faTimes, faQuestionCircle, faInfoCircle, faUserCircle, 
     faBook, faMapMarkerAlt, faPencilAlt,  faPlus, faSpinner,faQuoteLeft, faQuestion,
-    faSyncAlt, faThumbsUp,faThumbsDown, faSignInAlt, faComment, faComments
+    faSyncAlt, faThumbsUp,faThumbsDown, faSignInAlt, faComment, faComments, faExpandArrowsAlt, faChevronUp, faHome, faBars, faHistory, faUser, faChalkboardTeacher, faUsers
     } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faHackerrank, faGoogle, faFacebook, faTwitter, faWhatsapp, faLine, faFacebookSquare, } from '@fortawesome/free-brands-svg-icons'
 import {faBell, faFileAlt, faCheckCircle, } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faFile, faHackerrank, faTasks, faList, faAngleLeft, faBell, 
-    faSignOutAlt, faBars, faCircle, faGoogle, faArrowCircleRight, faTimes, 
+    faSignOutAlt, faCircle, faGoogle, faArrowCircleRight, faTimes, 
     faQuestionCircle, faInfoCircle, faUserCircle, faBook, faMapMarkerAlt, 
     faPencilAlt, faFileAlt, faPlus, faSpinner, faQuoteLeft, faQuestion,
     faSyncAlt,faThumbsUp,faThumbsDown, faCheckCircle, faSignInAlt, faComment, 
-    faComments, faFacebook, faTwitter, faWhatsapp, faLine, faFacebookSquare
+    faComments, faFacebook, faTwitter, faWhatsapp, faLine, faFacebookSquare, faExpandArrowsAlt, faChevronUp, faHome, faBars, faHistory, faUser, faChalkboardTeacher, faUsers
     )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

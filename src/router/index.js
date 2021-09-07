@@ -72,6 +72,11 @@ const routes = [
                 path: '/teams',
                 component: Team
             },
+            {
+                path: '/members/:id',
+                name: 'show-members',
+                component: () => import('@/components/User/Teams/ShowMembers'),
+            },
 
             
         ]
@@ -104,7 +109,27 @@ const routes = [
                 path: '/admin/teams',
                 name: 'allteams',
                 component: () => import('@/components/Admin/Teams/AllTeams'),
-            }
+            },
+            {
+                path: '/admin/members/:id',
+                name: 'show-members-admin',
+                component: () => import('@/components/Admin/Teams/ShowMembersAdmin'),
+            },
+            {
+                path: '/admin/leaderboard',
+                name: 'admin-leaderboard',
+                component: () => import('@/components/Admin/AdminLeaderboard/AdminLeaderboard'),
+            },
+            {
+                path: '/admin/leaderboard/team',
+                name: 'admin-leaderboard-team',
+                component: () => import('@/components/Admin/AdminLeaderboard/AdminLeaderboardTeam'),
+            },
+            {
+                path: '/admin/leaderboard/dosen',
+                name: 'admin-leaderboard-dosen',
+                component: () => import('@/components/Admin/AdminLeaderboard/AdminLeaderboardDosen'),
+            },
         ]
     },
 

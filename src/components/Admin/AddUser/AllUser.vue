@@ -47,7 +47,7 @@ export default {
                 reverseButtons: true
             })  .then(result => {
                     if(result.value) {
-                        axios.delete('http://localhost:8000/api/secretchamber/user/delete/' + id)
+                        axios.delete('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/user/delete/' + id)
                             .then(response => {
                                 console.log(response)
                                 Swal.fire(
@@ -132,7 +132,7 @@ export default {
             })
         },
         getTeams() {
-             axios.get('http://localhost:8000/api/teams')
+             axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/teams')
             .then(response => {
                 console.log(response)
                this.teams = response.data.dropdown_list
@@ -201,7 +201,7 @@ export default {
                                         />
                             </div>
                             <div class="card-body table-responsive p-0">
-                                <input type="text" v-model="search" style="margin-bottom:20px;" placeholder="search">
+                                <input type="text" v-model="search" style="margin:20px;" placeholder="search">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -252,6 +252,9 @@ export default {
                 </div>
             </div>
         </div>
+         <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
     </div>
 </template>
 

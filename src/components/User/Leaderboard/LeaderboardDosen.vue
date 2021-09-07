@@ -43,9 +43,9 @@ export default {
                             <h1 class="m-0 text-dark mb-1">Top Ranking</h1>
                         </div>
                     </div><!-- /.row -->
-                    <router-link to="/" class="btn btn-outline-danger mr-2">Student Rank</router-link>
-                    <router-link to="/rankdosen" class="btn btn-outline-secondary mr-2">Lecturer Rank</router-link>
-                    <router-link to="/rankteam" class="btn btn-outline-primary mr-2">Team Rank</router-link>
+                    <router-link to="/" class="btn btn-app bg-olive mr-2">Student Rank</router-link>
+                    <router-link to="/rankdosen" class="btn btn-app bg-indigo mr-2">Lecturer Rank</router-link>
+                    <router-link to="/rankteam" class="btn btn-app bg-maroon mr-2">Team Rank</router-link>
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
@@ -73,7 +73,7 @@ export default {
                                         <thead>
                                             <tr>
                                                 <th style="padding: 0; width: 7rem"></th>
-                                                <th style="padding: 0; width: 70%"></th>
+                                                <th style="padding: 0; width: 40%"></th>
                                                 <th style="padding: 0;"></th>
                                                 <th style="padding: 0"></th>
                                             </tr>
@@ -102,6 +102,9 @@ export default {
                 </div>
             <!-- /.content -->
             </div>
+             <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <font-awesome-icon icon="chevron-up" />
+    </a>
         </div>
         
 </template>

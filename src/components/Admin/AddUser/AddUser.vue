@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     submit() {
-      const questData = {
+      const addUser = {
         name: this.name,
         email: this.email,
         team: this.team
@@ -29,13 +29,12 @@ export default {
         if (result.value) {
           axios
             .post(
-              "https://dev.alphabetincubator.id/rep-backend/public/api/secretchamber/users",
-              questData
+              "https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/users/create",
+              addUser
             )
             .then(response => {
               console.log(response);
               Swal.fire("Success!", "User has been Added");
-              this.$router.push("/admin/user");
             })
             .catch(error => {
               console.log(error);
@@ -46,7 +45,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:8000/api/secretchamber/teams")
+      .get("https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/teams")
       .then(response => {
         console.log(response);
         this.teams = response.data.dropdown_list;
