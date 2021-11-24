@@ -79,6 +79,12 @@ export default {
                 this.redeemed = response.data.Data.Record
             })
         },
+        showAllAIC() {
+            axios.get('https://dev.alphabetincubator.id/mysc-backend/public/api/secretchamber/show/all/redeemed')
+            .then(response => {
+                this.redeemed = response.data.Data.Record
+            })
+        },
         approveAll() {
             swalWithBootstrap.fire({
                 title: 'Are you sure ?',
@@ -374,7 +380,7 @@ export default {
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>{{this.redeemed.length}}</h3>
+                                        <h3>{{this.all.Aic.length}}</h3>
                                         <p>Total Redeemed AIC</p>
                                     </div>
                                     <div class="icon">
@@ -570,7 +576,7 @@ export default {
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="redeemedaic">
-                                                <button type="button" @click="approveAicAll()" class="btn btn-success btn-sm mb-2">Approve All</button>
+                                                <button type="button" @click="showAllAIC()" class="btn btn-success btn-sm mb-2">Show All</button>
                                                 <table class="table">
                                                     <thead>
                                                         <tr>

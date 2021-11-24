@@ -50,7 +50,7 @@ export default {
         onSuccess(googleUser) {
             console.log(googleUser)
             const accessToken = {
-                access_token: googleUser.Zb.access_token
+                access_token: googleUser.wc.access_token
             }
 
             this.$store.dispatch("ssoGoogle", accessToken)

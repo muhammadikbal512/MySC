@@ -45,7 +45,7 @@ export default {
         submit() {
             this.loading = true
             Swal.fire({
-                text: "Are you sure to logout?",
+                text: "Are you sure ?",
                 imageUrl: "https://lh3.googleusercontent.com/-_niVlPvfWVk/YHhNZZNpOMI/AAAAAAAABgE/sQDKxIcsyRIXwYmkMQTRHKu-smSQYUF-QCK8BGAsYHg/s0/2021-04-15.png?authuser=0",
                 imageWidth: 150,
                 imageHeight: 60,
